@@ -1,0 +1,1 @@
+{"ast":null,"code":"import Head from 'next/head';\nimport Appbar from '../components/appbar';\nimport Searchbar from '../components/search';\nimport Addbtn from '../components/add';\nimport react, { useEffect, useState } from 'react';\nimport { firestore } from \"../utils/firebase\";","map":null,"metadata":{},"sourceType":"module"}
