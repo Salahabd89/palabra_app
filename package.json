@@ -9,8 +9,7 @@
     "dev": "nodemon next server/index.js",
     "build": "next build",
     "start": "NODE_ENV=production node server/index.js",
-    "export": "npm run build && next export",
-    "postbuild": "next-on-netlify"
+    "export": "npm run build && next export"
   },
   "dependencies": {
     "@material-ui/core": "^4.10.0",
