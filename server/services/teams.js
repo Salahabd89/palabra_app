@@ -5,6 +5,8 @@ async function addteam(req, res) {
   try {
     let team = req.query;
 
+    let allTeams = [];
+
     let uid = null;
 
     let auth_token = req.cookies["auth"];
@@ -26,7 +28,7 @@ async function addteam(req, res) {
         console.log(error);
       });
 
-    admin
+    await admin
       .firestore()
       .collection("teams")
       .add({
@@ -44,13 +46,26 @@ async function addteam(req, res) {
         console.error("Error adding document: ", error);
       });
 
-    admin
+    await admin
       .firestore()
       .collection("users")
       .doc(uid)
       .update({
         team: admin.firestore.FieldValue.arrayUnion(team.team),
       });
+
+    let teams = await admin
+      .firestore()
+      .collection("teams")
+      .where("added_by", "==", uid); //user
+
+    await teams.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        allTeams.push(doc.data().team_name);
+      });
+    });
+
+    res.status(200).json(allTeams);
   } catch (e) {
     console.log(e);
   } finally {

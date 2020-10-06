@@ -1,100 +1,130 @@
-import { useState, useEffect } from 'react'
-import Terms from '../components/console_terms'
-import axios from 'axios';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import jsCookie from 'js-cookie';
-import Head from 'next/head'
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import { useStyles } from "../utils/style";
+import Grid from "@material-ui/core/Grid";
+import Link from "next/link";
 
-import Searchbar from '../components/search'
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import Box from '@material-ui/core/Container';
-import {useStyles} from '../utils/style';
+export default function Console() {
+  const classes = useStyles();
 
-export default function Console(team) {
-
-    const classes = useStyles()
-    let [teamSelected, setTeams] = useState([]);
-
-    let teamCol = team.team.team
-
-    const handleChange = (event) => {
-        setTeams(event.target.value)
-    };
-
-    function teamMenu(teamCol) {
-
-        if (teamCol != null) {
-
-            teamCol.map((team, i) => {
-                return <MenuItem value={team.teams.team_name}>{team.teams.team_name}</MenuItem>
-            })
-
-        } else {
-            return <MenuItem value='Self'>{'Self'}</MenuItem>
-        }
-    }
-
-    useEffect(() => {
-
-        jsCookie.set('team', teamSelected);
-
-    }, [teamSelected])
-
-    return (
-        <>
-            <Terms></Terms>
-            <Head>
-                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-            </Head>
-            <Box className={classes.box} >
-            <Select variant={'outlined'}
-                    onChange={handleChange}
-                    className= {classes.select}
-                >
-                    {
-                        teamMenu(teamCol)
-
-                    }
-                </Select>
-                <Searchbar></Searchbar><br />
-                <Button className={classes.btn} href={'./addword'} >
-                    <Icon style={{ fontSize: 40 }} >add_circle</Icon>
-                </Button>
-            </Box>
-        </>
-
-    )
+  return (
+    <>
+      <Grid
+        style={{ padding: "105px" }}
+        container
+        spacing={4}
+        className={classes.gridContainer}
+        justify="center"
+      >
+        <Grid item xs={12} sm={6} md={3}>
+          <Link href={{ pathname: "addword" }} as={`addword`}>
+            <Card>
+              <CardActionArea>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Add Word
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Define a word that you think may benfifit yourself or those
+                    in your teams
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        </Grid>
+        <Link href={{ pathname: "listwords" }} as={`listwords`}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardActionArea>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    View Glossary
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Check out words you and your team has defined
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        </Link>
+        <Link href={{ pathname: "teams" }} as={`teams`}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card>
+              <CardActionArea>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Create a Team
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Create a new team to beging sharing important words with
+                    each other
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        </Link>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Team Settings
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Create a new team to beging sharing important words with each
+                  other
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
-const fetchData = async (query, auth) => await axios.get(`/api/console/${query.def}`, { headers: { auth: auth } })
-    .then(res => ({
-
-        team: res.data
-
+const fetchData = async (query, auth) =>
+  await axios
+    .get(`/api/console/${query.def}`, { headers: { auth: auth } })
+    .then((res) => ({
+      team: res.data,
     }))
     .catch(() => ({
-
-        error: true
-
-    }),
-    );
+      error: true,
+    }));
 
 export async function getServerSideProps(context) {
+  let cookie = context.req.headers.cookie;
 
-    let cookie = context.req.headers.cookie
+  let auth = cookie
+    .split("; ")
+    .find((row) => row.startsWith("auth"))
+    .split("=")[1];
 
-    let auth = cookie.split('; ')
-        .find(row => row.startsWith('auth'))
-        .split('=')[1]
+  const teams = await fetchData(context.query, auth);
 
-    const teams = await fetchData(context.query, auth);
-
-    return {
-        props: {
-            team: teams
-        }
-    }
-
+  return {
+    props: {
+      team: teams,
+    },
+  };
 }

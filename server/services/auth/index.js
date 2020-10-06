@@ -4,7 +4,6 @@ const {
   ServiceAccount,
 } = require("../../../utils/firebase");
 const admin = require("firebase-admin");
-const teams = require("../teams");
 
 async function signin(req, res) {
   try {
@@ -47,6 +46,7 @@ async function signin(req, res) {
     res.cookie("auth", token, {
       maxAge: 30 * 24 * 3600 * 1000,
     });
+    console.log(userInfo);
     res.send({ userInfo: userInfo });
   } catch (e) {
     console.log(e);
@@ -61,13 +61,13 @@ async function signup(req, res) {
     const email = req.query.email;
     const password = req.query.password;
     const displayName = req.query.displayName;
-    const teams = [];
+    const team = [];
 
-    teams.push("Self");
+    team.push("Self");
 
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
-    res.send(generateUserDocument(user, { displayName, teams }));
+    res.send(generateUserDocument(user, { displayName, team }));
   } catch (e) {
     console.log(e);
   } finally {

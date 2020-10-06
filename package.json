@@ -39,7 +39,9 @@
     "react": "16.13.1",
     "react-cookie": "^4.0.3",
     "react-dom": "16.13.1",
+    "react-redux": "^7.2.1",
     "react-show-more-text": "^1.4.2",
+    "redux": "^4.0.5",
     "wink-pos-tagger": "^2.2.2"
   }
 }

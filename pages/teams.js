@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
-import Teamform from './../components/addteamform';
-import axios from 'axios';
+import React, { useState } from "react";
+import Teamform from "./../components/addteamform";
+import axios from "axios";
 
-  export default function Teams() {
+export default function Teams() {
+  const [team, setTeam] = useState([]);
 
-    const [team, setTeam] =  useState([]);
+  async function getData(team) {
+    setTeam({ team });
 
-    const getData = async (team) => {
+    let teams = await axios
+      .get(
+        `/api/teams/add`,
+        { params: team },
+        {
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      )
+      .then(function (response) {
+        return response.data;
+      })
 
-      setTeam({ team })
-  
-      await axios.get(`/api/teams/add`, { params: team }, { headers: { 'Content-Type': 'application/json' }, credentials: 'include' })
-        .then(function (response) {
-  
-          if (response.data.added == true) {
-           
-          }
-        })
-        
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  
-    return (
+      .catch(function (error) {
+        console.log(error);
+      });
 
-      <Teamform returnData={getData}></Teamform>
-       
-    )
+    localStorage.setItem("teams", JSON.stringify(teams));
   }
+
+  return <Teamform returnData={getData}></Teamform>;
+}
