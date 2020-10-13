@@ -103,8 +103,7 @@ export default function Console() {
 }
 
 const fetchData = async (query, auth) =>
-  await axios
-    .get(`/api/console/${query.def}`, { headers: { auth: auth } })
+  await fetch(`/api/console/${query.def}`, { headers: { auth: auth } })
     .then((res) => ({
       team: res.data,
     }))
@@ -114,6 +113,7 @@ const fetchData = async (query, auth) =>
 
 export async function getServerSideProps(context) {
   let cookie = context.req.headers.cookie;
+  console.log('sent..')
 
   let auth = cookie
     .split("; ")

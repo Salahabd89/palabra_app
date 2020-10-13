@@ -60,8 +60,8 @@ export default function ButtonAppBar(props) {
     setCurrentTeams(event.target.value);
   };
 
-  const ButtonLink = ({ className, href, hrefAs, children }) => (
-    <Link href={href} as={hrefAs}>
+  const ButtonLink = ({ className, href,pathname, hrefAs, children }) => (
+    <Link href={href} pathname={pathname} as={hrefAs}>
       <a className={className}>{children}</a>
     </Link>
   );
@@ -102,18 +102,20 @@ export default function ButtonAppBar(props) {
               <Button
                 className={classes.leftside}
                 component={ButtonLink}
-                href={"login"}
+                href={"/login"}
                 color="inherit"
-                hrefAs={"login"}
+                hrefAs={"/login"}
+                pathname={"/login"}
               >
                 Login
               </Button>
               <Button
                 className={classes.leftside}
                 component={ButtonLink}
-                href={"signup"}
+                href={"/signup"}
                 color="inherit"
-                hrefAs={"signup"}
+                hrefAs={"/signup"}
+                pathname={"/signup"}
               >
                 Sign Up
               </Button>
@@ -149,17 +151,19 @@ export default function ButtonAppBar(props) {
               </Select>
               <Button
                 component={ButtonLink}
-                href={"userprofile"}
+                href={"/userprofile"}
                 color="inherit"
-                hrefAs={"userprofile"}
+                hrefAs={"/userprofile"}
+                pathname={"/userprofile"}
               >
                 {props.user}
               </Button>
               <Button
                 component={ButtonLink}
-                href={"console"}
-                hrefAs={"console"}
+                href={"/console"}
+                hrefAs={"/console"}
                 color="inherit"
+                pathname={"/console"}
               >
                 Console
               </Button>

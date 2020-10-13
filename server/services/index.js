@@ -146,7 +146,6 @@ async function getDefinition(req, res) {
         definition: doc.data().definition,
         topics: doc.data().topics,
       });
-      console.log(doc.data().topics);
     });
   });
 

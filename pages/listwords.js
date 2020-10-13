@@ -40,10 +40,6 @@ function listwords() {
 
   const [words, Setwordlist] =  useState([]);
 
-  function gotToDef(word) {
-    console.log(word)
-  }
-
   const cookies = parseCookies()
 
   const fetchData = async () => {
@@ -65,7 +61,7 @@ function listwords() {
     <div>
         {words.map(function (item, i) {
          return <Link  href= {{ pathname: '/definitions/[def]'}} as={`definitions/${item.word}`}>
-          <Card key={i} className={classes.card} onClick={gotToDef("ff")}> <Wordcard
+          <Card key={i} className={classes.card} > <Wordcard
             word={item.word}
             definition={item.definition}
           >
