@@ -113,14 +113,18 @@ const fetchData = async (query, auth) =>
 
 export async function getServerSideProps(context) {
   let cookie = context.req.headers.cookie;
-  console.log('sent..')
+  const teams = [];
+
+  if(typeof cookie !== 'undefined'){
 
   let auth = cookie
     .split("; ")
     .find((row) => row.startsWith("auth"))
     .split("=")[1];
+ 
 
   const teams = await fetchData(context.query, auth);
+}
 
   return {
     props: {

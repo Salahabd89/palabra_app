@@ -24,31 +24,11 @@
     "/_polyfills": [
       "static/runtime/polyfills.js"
     ],
-    "/addword": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/congrats": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/console": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/definitions/[def]": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/index": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/listwords": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/userprofile": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

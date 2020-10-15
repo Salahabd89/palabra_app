@@ -36,17 +36,17 @@ async function signin(req, res) {
     const userInfo = await getUserDocument(signin.user.uid);
 
     res.cookie("refresh_token", signin.user.refreshToken, {
-      maxAge: 30 * 24 * 3600 * 1000,
+      maxAge: 3600000
     });
 
     res.cookie("username", userInfo.displayName, {
-      maxAge: 30 * 24 * 3600 * 1000,
+      maxAge: 3600000
     });
 
     res.cookie("auth", token, {
-      maxAge: 30 * 24 * 3600 * 1000,
+      maxAge: 3600000
     });
-    console.log(userInfo);
+
     res.send({ userInfo: userInfo });
   } catch (e) {
     console.log(e);

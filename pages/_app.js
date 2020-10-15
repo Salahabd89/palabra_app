@@ -1,6 +1,7 @@
 import Appbar from "../components/appbar";
 import { useState, useEffect } from "react";
 import router from "next/router";
+import {ProvideAuth,ProtectRoute} from '../utils/auth';
 
 function MyApp({ Component, pageProps }) {
   function removeCookies() {
@@ -44,7 +45,9 @@ function MyApp({ Component, pageProps }) {
   }, [loggedinuser, loggedin]);
 
   return (
-    <>
+
+    <ProvideAuth>
+       <ProtectRoute>
       <Appbar
         user={loggedinuser}
         loggedInState={loggedin}
@@ -53,7 +56,9 @@ function MyApp({ Component, pageProps }) {
         {" "}
       </Appbar>
       <Component {...pageProps}></Component>
-    </>
+      </ProtectRoute>
+      </ProvideAuth>
+
   );
 }
 
